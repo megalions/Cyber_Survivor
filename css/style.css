@@ -1,6 +1,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #05060a; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: "Courier New", monospace; color: #cffcff; overflow: hidden; }
-    #game-container { position: relative; width: 1280px; height: 720px; }
+#game-container { position: relative; width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); }
+#gameCanvas { touch-action: none; }
     #gameCanvas { display: block; background: #05060a; border: 2px solid #272a3d; }
     .ui-screen { position: absolute; inset: 0; background: rgba(5, 8, 16, 0.94); display: flex; flex-direction: column; align-items: center; gap: 9px; z-index: 10; padding: 12px 6px; text-align: center; overflow-y: auto; }
     .ui-screen > * { flex-shrink: 0; }
@@ -36,3 +37,25 @@
 	.nav-focus { border-color: #00ffcc !important; box-shadow: 0 0 16px rgba(0, 255, 204, 0.6), inset 0 0 10px rgba(0, 255, 204, 0.25) !important; }
 	#gameCanvas { transition: transform 0.25s ease; }
 	#gameCanvas.tilt { transform: perspective(1100px) rotateX(9deg) scale(0.97); }
+	.touch-btn {
+    position: absolute;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(0, 255, 204, 0.12);
+    border: 2px solid rgba(0, 255, 204, 0.35);
+    color: #00ffcc;
+    font-size: 32px;
+    z-index: 15;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    pointer-events: auto;
+    font-family: inherit;
+    cursor: pointer;
+}
+	#touchDash { bottom: 25px; right: 25px; }
+	#touchSkill { bottom: 125px; right: 25px; }
+	#touchPause { width: 50px; height: 50px; font-size: 20px; }
