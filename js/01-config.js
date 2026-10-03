@@ -39,10 +39,10 @@ const PC_COLORS = ["#00ffcc", "#ff923d", "#3dff8c", "#ff7bd9"];   // [เฟส 
 
 const WEAPONS = {
     SWORD:   { name: "MANTIS BLADES", dmg: 8, delay: 50, bSize: 90, bSpd: 0,  maxHp: 140, speed: 1.3, desc: "ใบมีดประชิด + คลื่นสโลว์ | ดูดเลือด 1 HP ทุกการฟันที่โดน (คริ = 2) | ฟัน/คลื่นทะลุกำแพงได้", kbForce: 6,   kbDuration: 5 },
-    GUN:     { name: "SMART RIFLE",   dmg: 1, delay: 20, bSize: 5,  bSpd: 11, maxHp: 90,  speed: 2.0, desc: "ไรเฟิลระยะไกล + มิสไซล์ติดตาม | คริ = กระสุนติดไฟทันที", kbForce: 1.5, kbDuration: 5 },
+    GUN:     { name: "SMART RIFLE",   dmg: 3, delay: 20, bSize: 5,  bSpd: 11, maxHp: 90,  speed: 2.0, desc: "ไรเฟิลระยะไกล + มิสไซล์ติดตาม | คริ = กระสุนติดไฟทันที", kbForce: 1.5, kbDuration: 5 },
     SHOTGUN: { name: "SHOTGUN",       dmg: 2, delay: 70, bSize: 4,  bSpd: 8,  maxHp: 110, speed: 1.0, desc: "ลูกซองพายุระยะใกล้ + โยนไมน์หาศัตรู | คริ = เม็ดทะลุไปโดนตัวถัดไป", kbForce: 8,   kbDuration: 12 },
     LASER:   { name: "PHOTON LANCE",  dmg: 2, delay: 34, bSize: 6,  bSpd: 14, maxHp: 100, speed: 1.6, desc: "ลำแสงทะลุศัตรูหลายตัว (ปลดล็อกด้วย CORE 5)", kbForce: 1, kbDuration: 4 },
-    DRONE:   { name: "DRONE OPS",     dmg: 1, delay: 16, bSize: 4,  bSpd: 10, maxHp: 100, speed: 1.8, desc: "ปืนพกควบคู่ฝูงโดรนยิงศัตรูให้คุณ (ปลดล็อกด้วย CORE 5)", kbForce: 1, kbDuration: 4 }
+    DRONE:   { name: "DRONE OPS",     dmg: 2, delay: 16, bSize: 4,  bSpd: 10, maxHp: 100, speed: 1.8, desc: "ปืนพกควบคู่ฝูงโดรนยิงศัตรูให้คุณ (ปลดล็อกด้วย CORE 5)", kbForce: 1, kbDuration: 4 }
 };
 
 const CLASS_SKILLS = {
