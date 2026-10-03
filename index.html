@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>CYBER SURVIVOR</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="game-container">
+    <canvas id="gameCanvas" width="1280" height="720"></canvas>
+    <button id="fsBtn" class="btn">⛶ FULLSCREEN [F]</button>
+
+    <div id="start-screen" class="ui-screen">
+        <h1>CYBER SURVIVOR</h1>
+        <div class="sub" id="core-balance"></div>
+        <div class="sub" id="continue-slot"></div>
+        <button class="btn" id="settings-open-btn" onclick="openSettings()">⚙ CONTROLS &amp; SETTINGS</button>
+        <div class="sub" id="lobby-title">เลือกจำนวนผู้เล่น</div>
+        <div id="lobby-container" class="card-row"></div>
+        <div class="sub">— META LAB (ถาวร ใช้ได้ทุกรัน) —</div>
+        <div id="meta-perks" class="card-row"></div>
+        <div class="sub">— ACHIEVEMENTS —</div>
+        <div id="ach-list"></div>
+        <div class="sub" id="run-stats"></div>
+        <div class="sub">WASD เดิน | เมาส์เล็ง+คลิก หรือ AUTO ATK | SPACE แดช | E สกิล | Q สลับ AUTO ของฉัน | F เต็มจอ</div>
+        <div class="sub">ESC พักเกม | TAB ดูบิลด์ | M ปรับเสียง (100/50/ปิด) | N ตัวเลขดาเมจ | V เอฟเฟกต์ดาบ</div>
+        <div class="sub">🎯 คริ: CRIT CIRCUIT / OVERCHARGE | แดชแล้วการโจมตีครั้งถัดไป (ภายใน 1 วิ) = คริการันตี | ไม่คริซ้ำ = โอกาสสะสม</div>
+        <div class="sub">🩸 ดาบดูด 1/ฟัน (คริ 2) | VAMPIRE CHIP ต่อการโจมตี — การฟื้นฟูรวมทุกแหล่งไม่เกิน 5% MaxHP/วิ (คลาสระยะไกลได้ครึ่งเดียว)</div>
+        <div class="sub">🧱 ดาบฟัน/คลื่นทะลุกำแพงได้ตามเดิม — แต่มอนที่ถูกกั้น 5 วิ จะแฮ็กวาร์ปเข้าหาคุณ และบอสชาร์จทุกกำแพงทะลุมา</div>
+        <div class="sub">ฆ่าบอสครบทุกจุดเปิด WARP | บอสดรอป EXP + 💵 + 🔴CORE | ทุก 5 ชั้น OVERLORD | ทุก 10 ชั้น DEVIL CORE | ห้อง 💎 / สนาม ⚔ / ดีล 🃏</div>
+    </div>
+
+    <div id="upgrade-screen" class="ui-screen hidden">
+        <h2>SYSTEM UPGRADE</h2>
+        <div class="sub" id="upgrade-sub">เลเวลอัพ! เลือกติดตั้งระบบ 1 อย่าง</div>
+        <div id="upgrade-players"></div>
+    </div>
+
+    <div id="shop-screen" class="ui-screen hidden">
+        <h2>BLACK MARKET</h2>
+        <div class="sub"><span id="shop-user-pts">0</span></div>
+        <div id="shop-feedback" class="sub" style="color:#8fa3b8; min-height:18px;"></div>
+        <div id="shop-cards-container" class="card-row"></div>
+        <button id="shop-leave-btn" class="btn">เลือก PROTOCOL ชั้นถัดไป →</button>
+    </div>
+
+    <div id="mod-screen" class="ui-screen hidden">
+        <h2>FLOOR PROTOCOL</h2>
+        <div class="sub">เลือกม็อดิไฟเออร์ 1 อย่าง (มีผลต่อเนื่องถึงจบรัน เลือกได้ทุกชั้น)</div>
+        <div id="mod-cards-container" class="card-row"></div>
+    </div>
+
+    <div id="pause-screen" class="ui-screen hidden">
+        <h2>SYSTEM PAUSED</h2>
+        <div class="sub">ESC กลับเกม | TAB ดูบิลด์ | M ปรับเสียง | รันถูกเซฟอัตโนมัติทุกครั้งที่ขึ้นชั้นใหม่</div>
+        <button class="btn" onclick="closePauseMenu()">RESUME [ESC]</button>
+        <button class="btn" onclick="openSettings()">⚙ CONTROLS</button>
+        <button class="btn" onclick="surrenderRun()">SURRENDER — ยอมแพ้รันนี้</button>
+    </div>
+
+    <div id="build-screen" class="ui-screen hidden">
+        <h2>CURRENT BUILD</h2>
+        <div id="build-info" style="max-width:600px; text-align:left;"></div>
+        <button class="btn" onclick="closeBuildMenu()">CLOSE [TAB]</button>
+    </div>
+
+    <div id="gameover-screen" class="ui-screen hidden">
+        <h2 style="color:#ff0055;">SYSTEM FAILURE</h2>
+        <div id="gameover-stats" class="sub"></div>
+        <button class="btn" onclick="resetGame()">REBOOT SYSTEM</button>
+    </div>
+
+    <div id="settings-screen" class="ui-screen hidden">
+        <h2>CONTROLS &amp; SETTINGS</h2>
+        <div class="sub">ผูกปุ่มต่อผู้เล่น (สูงสุด 4 ช่อง) — คลิกช่องปุ่มแล้วกดคีย์/ปุ่มจอยที่ต้องการ (ESC = ยกเลิก)<br>ตอนนี้เล่นคนเดียว: ผู้เล่น 1 คุมตัวละคร — อยากใช้จอย ให้เปลี่ยนอุปกรณ์ของ "ผู้เล่น 1" เป็นจอย</div>
+        <div id="settings-feedback" class="sub" style="min-height:16px;"></div>
+        <div id="settings-body" style="max-width:1000px;"></div>
+        <button class="btn" onclick="resetBinds()">RESET DEFAULTS</button>
+        <button class="btn" onclick="closeSettings()">CLOSE [ESC]</button>
+    </div>
+</div>
+
+<script src="js/00-balance.js"></script>
+<script src="js/01-config.js"></script>
+<script src="js/02-state.js"></script>
+<script src="js/03-save.js"></script>
+<script src="js/04-audio.js"></script>
+<script src="js/05-combat.js"></script>
+<script src="js/06-map.js"></script>
+<script src="js/07-stage.js"></script>
+<script src="js/08-boss.js"></script>
+<script src="js/09-input.js"></script>
+<script src="js/10-actions.js"></script>
+<script src="js/11-deploy.js"></script>
+<script src="js/12-upgrade.js"></script>
+<script src="js/13-life.js"></script>
+<script src="js/14-update.js"></script>
+<script src="js/15-render.js"></script>
+<script src="js/16-boot.js"></script>
+<script src="js/17-sprites.js"></script>
+</body>
+</html>
