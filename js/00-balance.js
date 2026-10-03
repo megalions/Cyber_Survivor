@@ -68,6 +68,14 @@ const BAL = {
         SUMMON_N_P2: 4,        // จำนวนอัญเชิญเฟส 2 (OVERLORD)
     },
 
+    // ═══════════ กระสุน ═══════════
+    BULLET: {
+        PELLET_RANGE: 200,       // SHOTGUN: ระยะสูงสุด (px)
+        LASER_RANGE: 460,        // LASER: ระยะสูงสุด (px)
+        PELLET_DECAY: [1.0, 0.7, 0.5],  // ทะลุ: ตัวทะลุ 1=100% 2=70% 3=50%
+        PELLET_CAP: 3,           // ทะลุสูงสุด N ตัว/เม็ด แล้วหาย
+    },
+
     // ═══════════ เศรษฐกิจ ═══════════
     ECO: {
         SHOP_BASE: 60,          // ราคาเริ่มต้นร้าน (ครั้งที่ 1)
@@ -110,6 +118,9 @@ const BAL = {
         LANCE_EVERY: 5,         // LASER: ลำแสงใหญ่ทุก N นัด
         LANCE_DMG: [0, 2, 2.5, 3], // LASER: ดาเมจตามเลเวล 1/2/3
 
-        DRONE_BASE: 1,          // DRONE: โดรนเริ่มต้น (เดิม 2)
+        DRONE_BASE: 1,          // DRONE: โดรนเริ่มต้น
+        RICOCHET_MAX: 3,        // ชิ่งกำแพงสูงสุด 3 ครั้ง (GUN/DRONE/TURRET เท่านั้น)
+        STUN_CONE_RANGE: 40,    // กรวยแตกจากเป้า 1 ช่อง (40px)
+        STUN_CONE_DMG: 0.25,    // ดาเมจกรวย 25%
     },
 };
