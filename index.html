@@ -2,12 +2,16 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>CYBER SURVIVOR</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div id="game-container">
     <canvas id="gameCanvas" width="1280" height="720"></canvas>
+    <button id="touchPause" class="touch-btn" style="top:10px; right:10px; bottom:auto; font-size:20px;">⏸</button>
+    <button id="touchSkill" class="touch-btn">⚡</button>
+    <button id="touchDash" class="touch-btn">⇢</button>
     <button id="fsBtn" class="btn">⛶ FULLSCREEN [F]</button>
 
     <div id="start-screen" class="ui-screen">
@@ -98,5 +102,6 @@
 <script src="js/15-render.js"></script>
 <script src="js/16-boot.js"></script>
 <script src="js/17-sprites.js"></script>
+<script src="js/18-touch.js"></script>
 </body>
 </html>
