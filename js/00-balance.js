@@ -121,7 +121,7 @@ const BAL = {
         LANCE_DMG: [0, 2, 2.5, 3], // LASER: ดาเมจตามเลเวล 1/2/3
 
         DRONE_BASE: 1,          // DRONE: โดรนเริ่มต้น
-        RICOCHET_MAX: 3,        // ชิ่งกำแพงสูงสุด 3 ครั้ง (GUN/DRONE/TURRET เท่านั้น)
+        RICOCHET_MAX: 0,        // ชิ่งกำแพงสูงสุด 3 ครั้ง (GUN/DRONE/TURRET เท่านั้น)
         STUN_CONE_RANGE: 40,    // กรวยแตกจากเป้า 1 ช่อง (40px)
         STUN_CONE_DMG: 0.25,    // ดาเมจกรวย 25%
         THUNDER_CHAIN_N: 2,     // สายฟ้าเมื่อคริ: เด้งไป N เป้า
