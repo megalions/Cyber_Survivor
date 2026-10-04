@@ -9,7 +9,7 @@
 <body>
 <div id="game-container">
     <canvas id="gameCanvas" width="1280" height="720"></canvas>
-    <button id="touchPause" class="touch-btn" style="top:10px; right:10px; bottom:auto; font-size:20px;">⏸</button>
+    <button id="touchPause" class="touch-btn" style="top:10px; right:170px; bottom:auto; font-size:20px;">⏸</button>
     <button id="touchSkill" class="touch-btn">⚡</button>
     <button id="touchDash" class="touch-btn">⇢</button>
     <button id="fsBtn" class="btn">⛶ FULLSCREEN [F]</button>
@@ -28,7 +28,7 @@
         <div class="sub" id="run-stats"></div>
         <div class="sub">WASD เดิน | เมาส์เล็ง+คลิก หรือ AUTO ATK | SPACE แดช | E สกิล | Q สลับ AUTO ของฉัน | F เต็มจอ</div>
         <div class="sub">ESC พักเกม | TAB ดูบิลด์ | M ปรับเสียง (100/50/ปิด) | N ตัวเลขดาเมจ | V เอฟเฟกต์ดาบ</div>
-        <div class="sub">🎯 คริ: CRIT CIRCUIT / OVERCHARGE | แดชแล้วการโจมตีครั้งถัดไป (ภายใน 1 วิ) = คริการันตี | ไม่คริซ้ำ = โอกาสสะสม</div>
+        <div class="sub">🎯 คริ: CRIT CIRCUIT +5% โอกาส / +0.25× ดาเมจคริ ต่อเลเวล (เต็ม 7 = 40% คูณ 3.75×) | แดชแล้วการโจมตีครั้งถัดไป (ภายใน 1 วิ) = คริการันตี | ไม่คริซ้ำ = โอกาสสะสม</div>
         <div class="sub">🩸 ดาบดูด 1/ฟัน (คริ 2) | VAMPIRE CHIP ต่อการโจมตี — การฟื้นฟูรวมทุกแหล่งไม่เกิน 5% MaxHP/วิ (คลาสระยะไกลได้ครึ่งเดียว)</div>
         <div class="sub">🧱 ดาบฟัน/คลื่นทะลุกำแพงได้ตามเดิม — แต่มอนที่ถูกกั้น 5 วิ จะแฮ็กวาร์ปเข้าหาคุณ และบอสชาร์จทุกกำแพงทะลุมา</div>
         <div class="sub">ฆ่าบอสครบทุกจุดเปิด WARP | บอสดรอป EXP + 💵 + 🔴CORE | ทุก 5 ชั้น OVERLORD | ทุก 10 ชั้น DEVIL CORE | ห้อง 💎 / สนาม ⚔ / ดีล 🃏</div>
@@ -76,7 +76,7 @@
 
     <div id="settings-screen" class="ui-screen hidden">
         <h2>CONTROLS &amp; SETTINGS</h2>
-        <div class="sub">ผูกปุ่มต่อผู้เล่น (สูงสุด 4 ช่อง) — คลิกช่องปุ่มแล้วกดคีย์/ปุ่มจอยที่ต้องการ (ESC = ยกเลิก)<br>ตอนนี้เล่นคนเดียว: ผู้เล่น 1 คุมตัวละคร — อยากใช้จอย ให้เปลี่ยนอุปกรณ์ของ "ผู้เล่น 1" เป็นจอย</div>
+        <div class="sub">ผูกปุ่มต่อผู้เล่น (สูงสุด 4 ช่อง) — คลิกช่องปุ่มแล้วกดคีย์/ปุ่มจอยที่ต้องการ (ESC = ยกเลิก)<br>🔌 จอยหลายตัว: กดปุ่มที่ต้องการผูกของผู้เล่นไหน แล้วกดปุ่มบนจอยตัวนั้น — จอยตัวนั้นจะจับคู่กับผู้เล่นคนนี้ทันที (● เขียว = จอยกำลังกดอยู่)</div>
         <div id="settings-feedback" class="sub" style="min-height:16px;"></div>
         <div id="settings-body" style="max-width:1000px;"></div>
         <button class="btn" onclick="resetBinds()">RESET DEFAULTS</button>
