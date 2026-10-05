@@ -127,6 +127,7 @@ function playSynthSFX(type, pitch) {   // [v15] pitch ที่ 2 = ตัวค
             default: return;
         }
         if (sfxVolIdx === 1) vol *= 0.5;
+        vol *= SFX_FILE_VOL;   // [v37] ปุ่ม +/- ในเมนูมีผลกับ SFX สังเคราะห์ด้วย (มือถือ) — เดิมอ่านแค่ 3 ระดับหยาบ ทำให้ปรับละเอียดใช้ไม่ได้จริง
         osc.type = wave;
         gain.gain.setValueAtTime(vol, t);
         gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
