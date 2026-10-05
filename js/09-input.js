@@ -679,7 +679,7 @@ function renderSettingsBody() {
          + '<span class="btn" style="padding:1px 10px; font-size:11px;" onclick="cycleSfxVol()">'
          + ["100%", "50%", "ปิด"][sfxVolIdx] + ' ▸</span></div>';
     html += '<div class="sub" style="display:flex; justify-content:space-between; margin:2px 0;">'
-         + '<span>ไฟล์ SFX ดัง (0-100)</span>'
+         + '<span>SFX ดังละเอียด (0-100) — ใช้กับทั้งไฟล์และสังเคราะห์</span>'   // [v37] ป้ายตรงจริง: บนมือถือคุลเสียงสังเคราะห์ / PC คุมไฟล์
          + '<span class="btn" style="padding:1px 10px; font-size:11px;" onclick="adjustSfxFileVol(0.1)">+</span> '
          + '<span class="btn" style="padding:1px 10px; font-size:11px;" onclick="adjustSfxFileVol(-0.1)">−</span> '
          + '<span>' + Math.round(SFX_FILE_VOL * 100) + '</span></div>';
@@ -728,17 +728,20 @@ function cycleSfxVol() {
     updateMusicVol();
     renderSettingsBody();
     playSynthSFX("click");
+    saveSettings();   // [v37] บันทึกทันทีทุกกด — เดิมเซฟเฉพาะตอนปิดเมนู เคสแตะเข้าออกเร็ว = ค่าหาย
 }
 function adjustSfxFileVol(d) {
     SFX_FILE_VOL = Math.max(0, Math.min(1, SFX_FILE_VOL + d));
+    updateMusicVol();   // [v37] เผื่ออนาคต: เส้นทางเพลงอ่านค่านี้ร่วมด้วย
+    playSynthSFX("hit");   // [v37] เสียงตัวอย่าง = ได้ยินผลทันที (ทั้งสังเคราะห์/ไฟล์) — กดแล้วเงียบเฉยทำให้คิดว่าใช้ไม่ได้
     renderSettingsBody();
-    playSynthSFX("click");
+    saveSettings();   // [v37]
 }
 function adjustMusicVol(d) {
     MUSIC_VOL = Math.max(0, Math.min(1, MUSIC_VOL + d));
-    updateMusicVol();
+    updateMusicVol();   // เพลงที่เล่นอยู่เปลี่ยนดังทันที (เขียน volume ทุก element)
     renderSettingsBody();
-    playSynthSFX("click");
+    saveSettings();   // [v37]
 }
 
 function executeDash(pl, slot) {
