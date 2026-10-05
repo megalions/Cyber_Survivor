@@ -27,11 +27,29 @@ function loadAudioMap(files) {
         let a = new Audio(files[k]);
         a.preload = "auto";
         a._ok = false;
-        a.addEventListener("canplaythrough", () => { a._ok = true; });
-        a.addEventListener("error", () => { a._ok = false; });
+        // [v35] มือถือ: canplaythrough มักไม่ fire จนกว่าจะมี gesture (iOS/โหมดประหยัดแบต) — รับกว้างขึ้น 3 event ใด 1 พอ
+        let markOk = () => { a._ok = true; };
+        a.addEventListener("canplaythrough", markOk);
+        a.addEventListener("canplay", markOk);
+        a.addEventListener("loadeddata", markOk);
+        a.addEventListener("error", () => { a._ok = false; console.warn("[audio] โหลดไม่สำเร็จ:", files[k], "— เช็คชื่อไฟล์/case ตรงกับโค้ดหรือเปล่า"); });
         m[k] = a;
     }
     return m;
+}
+// [v35] เตะ unlock ตอน gesture แรก: บังคับให้มือถือเริ่มโหลด/อนุญาตเสียงจริง (play เงียบๆ แล้ว pause)
+// เรียกจาก musicAutoplayKick (16-boot) — หลังเตะ เพลง/SFX ไฟล์จะเริ่ม _ok และ startMusic ลองใหม่ให้อัตโนมัติ
+function unlockMobileAudio() {
+    let kick = (a) => {
+        try {
+            a.currentTime = 0;
+            let pr = a.play();
+            if (pr && pr.then) pr.then(() => { a.pause(); a.currentTime = 0; }).catch(() => {});
+        } catch (e) {}
+    };
+    for (let k in SFX_AUDIO) kick(SFX_AUDIO[k]);
+    for (let k in MUSIC_AUDIO) kick(MUSIC_AUDIO[k]);
+    setTimeout(() => startMusic(), 300);   // ลองเปิดเพลงอีกครั้งเมื่อไฟล์เริ่มพร้อม (startMusic กันเพลงซ้ำเองอยู่แล้ว)
 }
 const SFX_AUDIO = loadAudioMap(SFX_FILES);
 const MUSIC_AUDIO = loadAudioMap(MUSIC_FILES);
