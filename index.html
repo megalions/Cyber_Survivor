@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="game-container">
-    <canvas id="gameCanvas" width="1280" height="720"></canvas>
+    <canvas id="gameCanvas"></canvas>
     <button id="touchPause" class="touch-btn" style="top:10px; right:170px; bottom:auto; font-size:20px;">⏸</button>
     <button id="touchSkill" class="touch-btn">⚡</button>
     <button id="touchDash" class="touch-btn">⇢</button>
@@ -16,6 +16,7 @@
 
     <div id="start-screen" class="ui-screen">
         <h1>CYBER SURVIVOR</h1>
+		<div class="tron-lights"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="sub" id="core-balance"></div>
         <div class="sub" id="continue-slot"></div>
         <button class="btn" id="settings-open-btn" onclick="openSettings()">⚙ CONTROLS &amp; SETTINGS</button>
@@ -23,15 +24,9 @@
         <div id="lobby-container" class="card-row"></div>
         <div class="sub">— META LAB (ถาวร ใช้ได้ทุกรัน) —</div>
         <div id="meta-perks" class="card-row"></div>
-        <div class="sub">— ACHIEVEMENTS —</div>
-        <div id="ach-list"></div>
-        <div class="sub" id="run-stats"></div>
-        <div class="sub">WASD เดิน | เมาส์เล็ง+คลิก หรือ AUTO ATK | SPACE แดช | E สกิล | Q สลับ AUTO ของฉัน | F เต็มจอ</div>
-        <div class="sub">ESC พักเกม | TAB ดูบิลด์ | M ปรับเสียง (100/50/ปิด) | N ตัวเลขดาเมจ | V เอฟเฟกต์ดาบ</div>
-        <div class="sub">🎯 คริ: CRIT CIRCUIT +5% โอกาส / +0.25× ดาเมจคริ ต่อเลเวล (เต็ม 7 = 40% คูณ 3.75×) | แดชแล้วการโจมตีครั้งถัดไป (ภายใน 1 วิ) = คริการันตี | ไม่คริซ้ำ = โอกาสสะสม</div>
-        <div class="sub">🩸 ดาบดูด 1/ฟัน (คริ 2) | VAMPIRE CHIP ต่อการโจมตี — การฟื้นฟูรวมทุกแหล่งไม่เกิน 5% MaxHP/วิ (คลาสระยะไกลได้ครึ่งเดียว)</div>
-        <div class="sub">🧱 ดาบฟัน/คลื่นทะลุกำแพงได้ตามเดิม — แต่มอนที่ถูกกั้น 5 วิ จะแฮ็กวาร์ปเข้าหาคุณ และบอสชาร์จทุกกำแพงทะลุมา</div>
-        <div class="sub">ฆ่าบอสครบทุกจุดเปิด WARP | บอสดรอป EXP + 💵 + 🔴CORE | ทุก 5 ชั้น OVERLORD | ทุก 10 ชั้น DEVIL CORE | ห้อง 💎 / สนาม ⚔ / ดีล 🃏</div>
+        <div id="ach-count" class="sub"></div>
+        <div id="highscore-board"></div>
+
     </div>
 
     <div id="upgrade-screen" class="ui-screen hidden">
@@ -71,6 +66,13 @@
     <div id="gameover-screen" class="ui-screen hidden">
         <h2 style="color:#ff0055;">SYSTEM FAILURE</h2>
         <div id="gameover-stats" class="sub"></div>
+        <div id="highscore-entry" class="hidden" style="border:1px solid #ffd700; padding:10px 18px; margin:6px 0;">
+            <div style="color:#ffd700; font-weight:bold; font-size:14px;">🏆 NEW HIGH SCORE!</div>
+            <div class="sub">พิมพ์ชื่อ (อังกฤษพิมพ์ใหญ่ ไม่เกิน 8 ตัว)</div>
+            <input id="hs-name" type="text" maxlength="8" style="background:#05060a; border:1px solid #00ffcc; color:#00ffcc; font-family:inherit; font-size:18px; text-align:center; letter-spacing:4px; width:180px; text-transform:uppercase;" placeholder="AAA">
+            <div class="sub" id="hs-timer"></div>
+            <button class="btn" onclick="hsSaveName()">✔ SAVE</button>
+        </div>
         <button class="btn" onclick="resetGame()">REBOOT SYSTEM</button>
     </div>
 
@@ -79,8 +81,18 @@
         <div class="sub">ผูกปุ่มต่อผู้เล่น (สูงสุด 4 ช่อง) — คลิกช่องปุ่มแล้วกดคีย์/ปุ่มจอยที่ต้องการ (ESC = ยกเลิก)<br>🔌 จอยหลายตัว: กดปุ่มที่ต้องการผูกของผู้เล่นไหน แล้วกดปุ่มบนจอยตัวนั้น — จอยตัวนั้นจะจับคู่กับผู้เล่นคนนี้ทันที (● เขียว = จอยกำลังกดอยู่)</div>
         <div id="settings-feedback" class="sub" style="min-height:16px;"></div>
         <div id="settings-body" style="max-width:1000px;"></div>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+            <button class="btn" id="settings-tab-btn" onclick="showRecords()">📊 RECORDS</button>
+        </div>
         <button class="btn" onclick="resetBinds()">RESET DEFAULTS</button>
         <button class="btn" onclick="closeSettings()">CLOSE [ESC]</button>
+    </div>
+
+    <div id="records-screen" class="ui-screen hidden">
+        <h2>📊 RECORDS</h2>
+        <div class="sub">สถิติรวม + Achievement ถาวร + Challenge ทั้งหมด</div>
+        <div id="records-body" style="max-width:760px; text-align:left;"></div>
+        <button class="btn" onclick="closeRecords()">◀ BACK</button>
     </div>
 </div>
 
