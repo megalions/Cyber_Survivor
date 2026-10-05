@@ -1,8 +1,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #05060a; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: "Courier New", monospace; color: #cffcff; overflow: hidden; }
-#game-container { position: relative; width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); }
-#gameCanvas { touch-action: none; }
-    #gameCanvas { display: block; background: #05060a; border: 2px solid #272a3d; }
+    #game-container { position: relative; width: 100vw; height: 100vh; }
+    #gameCanvas { display: block; background: #05060a; border: none; width: 100%; height: 100%; touch-action: none; }
     .ui-screen { position: absolute; inset: 0; background: rgba(5, 8, 16, 0.94); display: flex; flex-direction: column; align-items: center; gap: 9px; z-index: 10; padding: 12px 6px; text-align: center; overflow-y: auto; }
     .ui-screen > * { flex-shrink: 0; }
     .ui-screen > :first-child { margin-top: auto; }
@@ -10,15 +9,16 @@
     .hidden { display: none !important; }
     h1 { color: #00ffcc; letter-spacing: 6px; text-shadow: 0 0 14px rgba(0, 255, 204, 0.5); font-size: 26px; }
     h2 { color: #00ffcc; letter-spacing: 3px; }
-    .sub { color: #8fa3b8; font-size: 12px; line-height: 1.6; }
-    .btn { background: #13141f; color: #00ffcc; border: 1px solid #00ffcc; padding: 8px 20px; cursor: pointer; font-family: inherit; font-size: 13px; letter-spacing: 1px; }
+    .sub { color: #8fa3b8; font-size: clamp(12px, 1.05vw, 16px); line-height: 1.6; }   /* [v30] */
+    .btn { background: #13141f; color: #00ffcc; border: 1px solid #00ffcc; padding: clamp(8px, 0.8vw, 12px) clamp(20px, 2vw, 32px); cursor: pointer; font-family: inherit; font-size: clamp(13px, 1.15vw, 18px); letter-spacing: 1px; }   /* [v30] */
     .btn:hover { background: #00ffcc; color: #05060a; }
-    .upgrade-card { background: #13141f; border: 1px solid #272a3d; padding: 10px 11px; width: 226px; min-height: 0; cursor: pointer; transition: border-color 0.15s; }
+    /* [v30] การ์ด+ตัวหนังสือใหญ่ตามจอ — clamp(เล็กสุด, ยืดตาม viewport, ใหญ่สุด) */
+    .upgrade-card { background: #13141f; border: 1px solid #272a3d; padding: 12px 14px; width: clamp(226px, 21vw, 320px); min-height: 0; cursor: pointer; transition: border-color 0.15s; }
     .upgrade-card:hover { border-color: #00ffcc; }
-    .up-name { color: #00ffcc; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
-    .up-lv { color: #ffcc00; font-size: 11px; margin-bottom: 5px; }
-    .up-desc { color: #8fa3b8; font-size: 11px; line-height: 1.5; }
-    .up-price { color: #ffd700; font-size: 12px; margin-top: 7px; letter-spacing: 1px; }
+    .up-name { color: #00ffcc; font-size: clamp(20px, 1.3vw, 18px); font-weight: bold; margin-bottom: 6px; }
+    .up-lv { color: #ffcc00; font-size: clamp(11px, 1vw, 15px); margin-bottom: 6px; }
+    .up-desc { color: #8fa3b8; font-size: clamp(11px, 1vw, 15px); line-height: 1.5; }
+    .up-price { color: #ffd700; font-size: clamp(16px, 1.3vw, 16px); margin-top: 8px; letter-spacing: 1px; }
     .upgrade-card.poor { opacity: 0.55; }
     .upgrade-card.poor .up-price { color: #ff5577; }
     .upgrade-card.sold-out { opacity: 0.35; cursor: not-allowed; }
@@ -32,8 +32,6 @@
     .ach { font-size: 10px; color: #55607a; padding: 2px 8px; display: inline-block; }
     .ach.done { color: #00ffcc; }
     #fsBtn { position: absolute; top: 10px; right: 10px; z-index: 20; padding: 6px 12px; font-size: 12px; }
-	#game-container:fullscreen { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #05060a; }
-	#game-container:fullscreen #gameCanvas { width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); }
 	.nav-focus { border-color: #00ffcc !important; box-shadow: 0 0 16px rgba(0, 255, 204, 0.6), inset 0 0 10px rgba(0, 255, 204, 0.25) !important; }
 	#gameCanvas { transition: transform 0.25s ease; }
 	#gameCanvas.tilt { transform: perspective(1100px) rotateX(9deg) scale(0.97); }
@@ -59,3 +57,127 @@
 	#touchDash { bottom: 25px; right: 25px; }
 	#touchSkill { bottom: 125px; right: 25px; }
 	#touchPause { width: 50px; height: 50px; font-size: 20px; }
+	    /* [v20] ป้าย 20 อันดับไหลขึ้น หน้าเมนู */
+    #highscore-board { width: 340px; height: 150px; margin: 4px auto; overflow: hidden; position: relative; border: 1px solid #272a3d; background: rgba(5, 8, 16, 0.6); }
+    #highscore-board .hs-head { position: absolute; top: 2px; left: 0; right: 0; text-align: center; color: #00ffcc; font-weight: bold; font-size: 12px; letter-spacing: 2px; }
+    #highscore-board .hs-rows { position: absolute; left: 0; right: 0; top: 18px; bottom: 0; }
+    #highscore-board .hs-row { height: 14px; line-height: 14px; font-size: 11px; color: #8fa3b8; white-space: nowrap; overflow: hidden; }
+    #highscore-board .hs-row.top1 { color: #ffd700; }
+    #highscore-board .hs-row.top3 { color: #00ffcc; }
+    @keyframes hsFlow { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+    #highscore-board .hs-rows.flow { animation: hsFlow 20s linear infinite; }
+	/* ================== [TRON UI] หน้า Main ================== */
+#start-screen {
+    /* [TRON-flow-fix] เส้นกริดอยู่ชั้นบนสุด (ชั้นแรก = บนสุดใน CSS) — เดิมผ้าม่านดำ 92-97% ทับเส้น 5% จนมองไม่เห็น */
+    background:
+        repeating-linear-gradient(0deg, transparent 0 39px, rgba(0,255,204,0.10) 39px 40px),   /* เส้นแนวนอน (ไหล) */
+        repeating-linear-gradient(90deg, transparent 0 39px, rgba(0,255,204,0.07) 39px 40px),   /* เส้นแนวตั้ง (นิ่ง) */
+        linear-gradient(180deg, #050810, #02030a);                                             /* พื้นไล่เฉด */
+    background-position: 0 0, 0 0, 0 0;
+    animation: tronGridFlow 2.5s linear infinite;   /* กริดไหลลง ~16px/วิ */
+}
+@keyframes tronGridFlow {
+    to { background-position: 0 40px, 0 0, 0 0; }   /* เลื่อนเฉพาะชั้นเส้นแนวนอน พอดี 1 ช่อง = วนต่อเนื่อง */
+}
+@media (prefers-reduced-motion: reduce) {
+    #start-screen { animation: none; }   /* เคารพการตั้งค่า OS — คนที่เวียนหัวง่าย */
+}
+
+/* [โบนัส] แสง horizon ล่างจอหายใจเบาๆ ให้จังหวะเดียวกับกริด */
+#start-screen::before { animation: tronHorizon 4s ease-in-out infinite; }
+@keyframes tronHorizon { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+/* เส้นขอบล่างแบบ horizon ของ Grid */
+#start-screen::before {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 120px;
+    background: linear-gradient(to top, rgba(0,255,204,0.10), transparent);
+    pointer-events: none;
+}
+#start-screen h1 {
+    font-size: 44px;
+    letter-spacing: 14px;
+    padding: 10px 34px 12px;
+    color: #e8fffb;
+    text-shadow: 0 0 8px #00ffcc, 0 0 26px #00ffcc, 0 0 60px rgba(0,255,204,0.55);
+    border-top: 2px solid #00ffcc;
+    border-bottom: 2px solid #00ffcc;
+    position: relative;
+    animation: tronPulse 2.6s ease-in-out infinite;
+}
+#start-screen h1::before, #start-screen h1::after {
+    content: "";
+    position: absolute; top: -2px; bottom: -2px; width: 16px;
+    border: 2px solid #00ffcc;
+}
+#start-screen h1::before { left: -22px; border-right: none; }
+#start-screen h1::after { right: -22px; border-left: none; }
+@keyframes tronPulse {
+    0%, 100% { text-shadow: 0 0 8px #00ffcc, 0 0 26px #00ffcc, 0 0 60px rgba(0,255,204,0.55); }
+    50%      { text-shadow: 0 0 4px #00ffcc, 0 0 14px #00ffcc, 0 0 32px rgba(0,255,204,0.35); }
+}
+.tron-lights { display: flex; gap: 26px; justify-content: center; margin-top: 2px; }
+.tron-lights i {
+    width: 34px; height: 4px; background: #00ffcc;
+    box-shadow: 0 0 8px #00ffcc;
+    animation: tronBlink 1.8s infinite;
+}
+.tron-lights i:nth-child(2) { animation-delay: 0.2s; }
+.tron-lights i:nth-child(3) { animation-delay: 0.4s; }
+.tron-lights i:nth-child(4) { animation-delay: 0.6s; }
+.tron-lights i:nth-child(5) { animation-delay: 0.8s; }
+@keyframes tronBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+#start-screen .btn, #settings-open-btn {
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    background: linear-gradient(180deg, rgba(0,255,204,0.10), rgba(0,255,204,0.03));
+    border: 1px solid #00ffcc;
+    color: #7df9ff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    min-width: 320px;
+    transition: all 0.15s;
+}
+#start-screen .btn:hover {
+    background: #00ffcc;
+    color: #02030a;
+    box-shadow: 0 0 22px rgba(0,255,204,0.8), inset 0 0 12px rgba(255,255,255,0.25);
+}
+#start-screen .sub { color: #5a7a8f; }
+#start-screen > .sub { letter-spacing: 1px; }
+#lobby-container .upgrade-card, #meta-perks .meta-card {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    background: linear-gradient(180deg, rgba(10,14,24,0.9), rgba(5,8,16,0.9));
+    border: 1px solid #1a3040;
+    transition: all 0.15s;
+}
+#lobby-container .upgrade-card:hover, #meta-perks .meta-card:hover {
+    border-color: #00ffcc;
+    box-shadow: 0 0 16px rgba(0,255,204,0.45), inset 0 0 20px rgba(0,255,204,0.07);
+    transform: translateY(-2px);
+}
+#meta-perks .meta-card.owned { border-color: #3dff8c; box-shadow: 0 0 12px rgba(61,255,140,0.35); }
+#lobby-container .upgrade-card.locked { border-style: dashed; }
+#highscore-board {
+    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+    border: 1px solid #00ffcc !important;
+    background:
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,255,204,0.03) 3px 4px),
+        rgba(2,3,10,0.85) !important;
+    box-shadow: 0 0 24px rgba(0,255,204,0.25), inset 0 0 30px rgba(0,255,204,0.05);
+    width: 380px !important; height: 170px !important;
+}
+#highscore-board .hs-head { color: #7df9ff !important; text-shadow: 0 0 10px rgba(125,249,255,0.7); }
+#highscore-board .hs-row.top1 { text-shadow: 0 0 8px rgba(255,215,0,0.8); }
+#start-screen .ach {
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    border: 1px solid #1a3040;
+    background: rgba(5,8,16,0.6);
+}
+#start-screen .ach.done { border-color: #00ffcc; color: #7df9ff; text-shadow: 0 0 6px rgba(0,255,204,0.6); }
+#start-screen::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.12) 2px 4px);
+    pointer-events: none;
+    z-index: 1;
+}
+#start-screen > * { position: relative; z-index: 2; }   /* เนื้อหาอยู่เหนือ scanline */
