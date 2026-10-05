@@ -296,6 +296,7 @@ startMusic();   // [v19] เพลงหน้าเมนู — เบรา�
 
 // [v19] Autoplay policy: เสียงเริ่มได้หลังแตะ/กดครั้งแรก — เตะให้เพลงเล่นที่จังหวะนั้น (ครั้งเดียวแล้วถอด listener ทิ้ง)
 function musicAutoplayKick() {
+    unlockMobileAudio();   // [v35] เตะให้มือถือเริ่มโหลด/ปลดล็อกเสียง แล้ว startMusic ซ้ำเมื่อพร้อม
     startMusic();
     document.removeEventListener("mousedown", musicAutoplayKick);
     document.removeEventListener("keydown", musicAutoplayKick);
