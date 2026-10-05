@@ -47,9 +47,10 @@ function unlockMobileAudio() {
             if (pr && pr.then) pr.then(() => { a.pause(); a.currentTime = 0; }).catch(() => {});
         } catch (e) {}
     };
-    for (let k in SFX_AUDIO) kick(SFX_AUDIO[k]);
+    // [v36] เตะเฉพาะเพลง 5 ตัว — เดิมเตะทั้ง 26 = มือถือดึง/decode พร้อมกันหนักจนกระตุก
+    // SFX มือถือใช้สังเคราะห์ต่อไป (v36-2) จึงไม่ต้องเตะ
     for (let k in MUSIC_AUDIO) kick(MUSIC_AUDIO[k]);
-    setTimeout(() => startMusic(), 300);   // ลองเปิดเพลงอีกครั้งเมื่อไฟล์เริ่มพร้อม (startMusic กันเพลงซ้ำเองอยู่แล้ว)
+    setTimeout(() => startMusic(), 300);
 }
 const SFX_AUDIO = loadAudioMap(SFX_FILES);
 const MUSIC_AUDIO = loadAudioMap(MUSIC_FILES);
@@ -80,8 +81,9 @@ function updateMusicVol() {
 function playSynthSFX(type, pitch) {   // [v15] pitch ที่ 2 = ตัวคูณความถี่ (ไม่ส่ง = 1 เหมือนเดิม — caller เดิมไม่ต้องแก้)
     if (sfxVolIdx === 2) return;
     pitch = Math.max(0.5, Math.min(2, pitch || 1));
-    // [เฟส A4] มีไฟล์เสียง = เล่นไฟล์ (โคลนเพื่อเล่นซ้อนกันได้) / ไม่มี = สังเคราะห์ต่อ
-    let f = SFX_AUDIO[type];
+    // [v36] โหมดสัมผัส = สังเคราะห์เสมอ — cloneNode ต่อเสียงทำมือถือกระตุก (GC ตึง) สังเคราะห์เบากว่ามาก
+    // PC (คีย์บอร์ด/จอย) ยังใช้ไฟล์เต็มรูปแบบ / เพลงทั้งสองแพลตฟอร์ม = ไฟล์
+    let f = touchMode ? null : SFX_AUDIO[type];
     if (f && f._ok) {
         try {
             let c = f.cloneNode();
